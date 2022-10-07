@@ -10,29 +10,39 @@ window.onload = function () {
     let FPS = 30;
     setInterval(function () {
         moveEverything();
-    drawEverything();  
-    }, 1000/FPS);
-    
+        drawEverything();
+    }, 1000 / FPS);
+
 }
 
 function moveEverything() {
     ballX = ballX + ballSpeedX;
-    if (ballX > 800) {
+    if (ballX < 0) {
         ballSpeedX = -ballSpeedX;
-}
-    
+    }
+    if (ballX > canvas.width) {
+        ballSpeedX = -ballSpeedX;
+    }
+
 }
 
 function drawEverything() {
-    canvasContext.fillStyle = 'black';
-    canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+    // Game Board
+    colorRect(0, 0, canvas.width, canvas.height, 'black');
     // Left Bumper
-    canvasContext.fillStyle = 'white';
-    canvasContext.fillRect(10, 10, 10, 100);
+    colorRect(10, 10, 10, 100, 'white');
     // Right Bumper
-    canvasContext.fillStyle = 'white';
-    canvasContext.fillRect(780, 10, 10, 100);
+    colorRect(780, 10, 10, 100, 'white');
     // ball
-    canvasContext.fillStyle = 'blue';
-    canvasContext.fillRect(ballX, 300, 10, 10);
+    colorCircle(ballX, 150, 10, 'blue')
+}
+function colorCircle(centerX, centerY, radius, drawColor) {
+    canvasContext.fillStyle = drawColor;
+    canvasContext.beginPath();
+    canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+    canvasContext.fill();
+}
+function colorRect(leftX, topY, width, height, drawColor) {
+    canvasContext.fillStyle = drawColor;
+    canvasContext.fillRect(leftX, topY, width, height);
 }
